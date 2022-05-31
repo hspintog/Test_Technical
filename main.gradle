@@ -11,8 +11,7 @@ subprojects {
     apply plugin: 'jacoco'
     apply plugin: 'io.spring.dependency-management'
 
-    compileJava.dependsOn validateStructure
-    sourceCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_1_8
 
     dependencies {
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -21,6 +20,12 @@ subprojects {
         testCompileOnly  "org.projectlombok:lombok:${lombokVersion}"
         testAnnotationProcessor  "org.projectlombok:lombok:${lombokVersion}"
         implementation platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+    }
+
+    configurations {
+        implementation {
+            exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+        }
     }
 
     test.finalizedBy(project.tasks.jacocoTestReport)
@@ -34,6 +39,11 @@ subprojects {
             html.destination file("${buildDir}/reports/jacocoHtml")
         }
     }
+    ext.libs = [
+        java: [
+                "javax:javaee-api:8.0"
+        ]
+    ]
 
 }
 
@@ -53,13 +63,4 @@ task jacocoMergedReport(type: JacocoReport) {
         csv.enabled false
         html.enabled true
     }
-}
-
-tasks.withType(JavaCompile) {
-    options.compilerArgs = [
-            '-Amapstruct.suppressGeneratorTimestamp=true'
-    ]
-}
-tasks.named('wrapper') {
-    gradleVersion = '7.4.2'
 }

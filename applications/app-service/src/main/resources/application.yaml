@@ -1,15 +1,7 @@
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "health"
-  endpoint:
-    health:
-      show-details: "always"
 server:
   port: 8080
   servlet:
-    context-path: "/api/testTechnical/v1"
+    context-path: "/api"
 spring:
   application:
     name: "Test_Technical"
@@ -17,6 +9,3 @@ spring:
     add-properties: false
   profiles:
     include: null
-adapter:
-  restconsumer:
-    url: "http://localhost:8080"
