@@ -5,9 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
+import java.util.List;
 
 /**Model to sequence DNA
  *
@@ -18,7 +19,7 @@ import java.util.Arrays;
 @NoArgsConstructor
 public class SequenceDna {
     @NotNull
-    private String[] dna;
+    private List<String> dna;
 
     @Override
     public int hashCode() {
@@ -29,10 +30,19 @@ public class SequenceDna {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof SequenceDna)) return false;
-        SequenceDna that = (SequenceDna) o;
-        return Arrays.equals(getDna(), that.getDna());
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SequenceDna other = (SequenceDna) obj;
+        if (dna == null) {
+            if (other.dna != null)
+                return false;
+        } else if (!CollectionUtils.isEqualCollection(dna, other.dna))
+            return false;
+        return true;
     }
 }
