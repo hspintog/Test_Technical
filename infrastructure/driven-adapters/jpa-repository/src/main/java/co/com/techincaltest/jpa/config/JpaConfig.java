@@ -24,6 +24,7 @@ public class JpaConfig {
     @Bean
     public DataSource datasource(DBSecret secret, @Value("${spring.datasource.driverClassName}") String driverClass) {
         System.out.println("Datasource {} " + secret.getUrl());
+        System.out.println("driverClassName {} " + driverClass);
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(secret.getUrl());
         config.setUsername(secret.getUsername());
@@ -45,7 +46,7 @@ public class JpaConfig {
 
         Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", dialect);
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        //properties.setProperty("hibernate.hbm2ddl.auto", "update");
         em.setJpaProperties(properties);
 
         return em;
