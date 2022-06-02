@@ -1,0 +1,32 @@
+apply plugin: 'org.springframework.boot'
+
+
+dependencies {
+	implementation 'org.reactivecommons.utils:object-mapper:0.1.0'
+	implementation project( ':jpa-repository')
+	implementation project( ':api-rest')
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation project(':model')
+    implementation project(':usecase')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-undertow:2.6.2'
+    implementation 'org.springframework.boot:spring-boot-devtools'
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    runtime('mysql:mysql-connector-java')
+    implementation libs.java
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '7.0.2' // version required
+}
+
+task explodedJar(type: Copy) {
+    with jar
+    into "${buildDir}/exploded"
+}
+
+configurations{
+    compile.exclude group: "org.springframework.boot", module:"spring-boot-starter-tomcat"
+    compile.exclude module: 'spring-boot-starter-tomcat'
+    compile.exclude group: 'org.apache.tomcat'
+}
