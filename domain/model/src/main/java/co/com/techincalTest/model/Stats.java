@@ -5,17 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 
-
-/**Return Result sequence DNA and is mutant
- *
- */
 @Data
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Mutant {
-    private String id;
-    private String dna;
-    private boolean isMutant;
+public class Stats {
+    private int count_mutant_dna;
+    private int count_human_dna;
+    private BigDecimal ratio;
+
 }

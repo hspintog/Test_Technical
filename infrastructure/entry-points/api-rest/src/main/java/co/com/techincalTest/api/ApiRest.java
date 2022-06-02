@@ -12,8 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.core.Context;
-import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -27,27 +25,22 @@ public class ApiRest {
 
     private final MutantUseCase mutantUseCase;
 
-    @PostMapping(path = "/valid")
-    public ResponseEntity<Boolean> isMutant(@RequestBody  SequenceDna dna) throws DNAStructureLengthException, InvalidCaractersDNAException {
-        logger.info(dna);
-        try{
+    @PostMapping(path = "/")
+    public ResponseEntity isMutant(@RequestBody  SequenceDna dna) throws DNAStructureLengthException, InvalidCaractersDNAException {
             logger.info("Start {}->isMutant ", className);
             logger.info("Request dnaSequence: {} ", gson.toJson(dna));
             boolean isMutant = mutantUseCase.isMutantDNA(dna);
             logger.info("Response Boolean: {} ", isMutant);
             logger.info("End {}->isMutant ", className);
-            return new ResponseEntity<>( isMutant, HttpStatus.OK );
-        }catch(Exception e){
-            logger.error(e.getMessage());
-            return new ResponseEntity<>( false, HttpStatus.INTERNAL_SERVER_ERROR );
-        }
+            if(isMutant){
+                return new ResponseEntity( HttpStatus.OK );
+            }else{
+                return new ResponseEntity( HttpStatus.FORBIDDEN );
+            }
     }
 
 
-    @GetMapping(path = "/status")
-    public ResponseEntity status(@Context HttpServletRequest request) {
-        return new ResponseEntity<>(HttpStatus.OK.value(), HttpStatus.OK);
-    }
+
 
 
 }

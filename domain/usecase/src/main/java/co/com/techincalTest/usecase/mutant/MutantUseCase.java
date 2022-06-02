@@ -21,6 +21,8 @@ public class MutantUseCase {
     private final DiagonalUseCase diagonalUseCase;
 
     private final DiagonalUpUseCase diagonalUpUseCase;
+
+    private final GuardadoUseCase saveDB;
     /**
      * Procesa y retorna si el dna de una secuencia es mutante o humano
      * @param dna
@@ -29,9 +31,10 @@ public class MutantUseCase {
     public boolean isMutantDNA(SequenceDna dna) throws DNAStructureLengthException, InvalidCaractersDNAException {
         boolean isMutant = validateSizeSequenceDNA(dna);
         Mutant dnaMutant = Mutant.builder()
-                .dna(dna.getDna())
+                .dna(String.valueOf(dna.getDna()))
                 .isMutant(isMutant)
                 .build();
+        saveDB.create(dnaMutant);
         return isMutant;
     }
 
