@@ -7,7 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Builder
 @Getter
-@ConfigurationProperties(prefix="spring")
 public class DBSecret {
     @Value("${spring.datasource.url}")
     private final String url;
